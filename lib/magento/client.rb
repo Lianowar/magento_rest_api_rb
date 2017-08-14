@@ -37,12 +37,15 @@ module Magento
       customer_token
     end
 
-    def create_customer(payload)
+    def create_customer(customer_info, password)
       headers = { accept: :json, content_type: :json }
       get_admin_token if admin_token.nil?
 
       headers[:authorization] = "Bearer #{admin_token}"
-      parse_response(post_wrapper('/V1/customers', payload, headers))
+      parse_response(post_wrapper('/V1/customers',
+                                  { customer: customer_info,
+                                    password: password }.to_json,
+                                  headers))
     end
 
 

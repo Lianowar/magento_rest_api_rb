@@ -6,13 +6,14 @@ module Magento
 
       attr_reader :customer_filters
 
-      def customer_get_me
-        return nil if customer_token.nil?
+      def customer_me
+        check_user_authorization
         parse_response(get_wrapper('/V1/customers/me',
                                    default_headers))
       end
 
-      def customer_put_me(payload)
+      def edit_customer(payload)
+        check_user_authorization
         parse_response(put_wrapper('/V1/customers/me',
                                    payload.to_json,
                                    default_headers))
@@ -39,6 +40,7 @@ module Magento
       end
 
       def change_customer_password(old_password, new_password)
+        check_user_authorization
         parse_response(put_wrapper('/V1/customers/me/password',
                                    { currentPassword: old_password,
                                      newPassword: new_password }.to_json,
