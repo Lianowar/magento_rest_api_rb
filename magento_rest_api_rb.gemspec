@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Lianowar"]
   spec.email         = ["novikov.vasiliy.d@gmail.com"]
 
-  spec.summary       = %q{Gem for Magenta REST Api}
-  spec.description   = %q{Gem for Magenta REST Api}
+  spec.summary       = %q{Gem for Magentо REST Api}
+  spec.description   = %q{Gem for Magentо REST Api}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency 'rest-client', '~> 2.0'
-  spec.add_development_dependency 'hashugar'
+  spec.add_dependency 'rest-client', '~> 2.0'
+  spec.add_dependency 'hashugar'
+  spec.add_dependency 'activesupport'
 end
