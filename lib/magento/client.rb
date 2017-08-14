@@ -39,12 +39,7 @@ module Magento
 
     def create_customer(payload)
       headers = { accept: :json, content_type: :json }
-      if admin_token.nil?
-        @admin_token = JSON.parse(post_wrapper('/V1/integration/admin/token',
-                                               { "username" => MagentoRestApiRb.admin_login,
-                                                 "password" => MagentoRestApiRb.admin_password}.to_json,
-                                               headers))
-      end
+      get_admin_token if admin_token.nil?
 
       headers[:authorization] = "Bearer #{admin_token}"
       parse_response(post_wrapper('/V1/customers', payload, headers))
@@ -52,6 +47,13 @@ module Magento
 
 
     private
+
+    def get_admin_token
+      @admin_token = JSON.parse(post_wrapper('/V1/integration/admin/token',
+                                             { "username" => MagentoRestApiRb.admin_login,
+                                               "password" => MagentoRestApiRb.admin_password }.to_json,
+                                             headers))
+    end
 
     def parse_response(response)
       JSON.parse(response).to_hashugar
