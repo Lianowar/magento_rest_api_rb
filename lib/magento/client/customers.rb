@@ -4,6 +4,8 @@ module Magento
   class Client
     module Customers
 
+      attr_reader :customer_filters
+
       def customer_get_me
         return nil if customer_token.nil?
         parse_response(get_wrapper('/V1/customers/me',
@@ -12,17 +14,19 @@ module Magento
 
       def customer_put_me(payload)
         parse_response(put_wrapper('/V1/customers/me',
-                                   payload.to_json, default_headers))
+                                   payload.to_json,
+                                   default_headers))
       end
 
       def email_available?(email, website_id)
         parse_response(post_wrapper('/V1/customers/isEmailAvailable',
-                                    { customerEmail: email, websiteId: website_id }.to_json,
+                                    { customerEmail: email,
+                                      websiteId: website_id }.to_json,
                                     default_headers))
       end
 
       def activate_customer_account(key)
-        raise 'User not authorized' if access_token.nil?
+        check_user_authorization
         parse_response(put_wrapper('/V1/customers/me/activate',
                                    { confirmationKey: key }.to_json,
                                    default_headers))
@@ -62,9 +66,15 @@ module Magento
 
       def validate_customer_data(payload)
         parse_response(put_wrapper('/V1/customers/validate',
-                                   payload.to_json, default_headers))
+                                   payload.to_json,
+                                   default_headers))
       end
 
+      # ## Similar to products filters
+      # def search_customers(page, per_page, filters = {})
+      #   @customer_filters = prepare_filters(filters, page, per_page)
+      #   parse_response(get_wrapper("/V1/customers/search?#{customer_filters}", default_headers))
+      # end
 
 
     end

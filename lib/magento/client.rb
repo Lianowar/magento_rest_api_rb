@@ -83,6 +83,42 @@ module Magento
       end
     end
 
+    def delete_wrapper(url, headers)
+      begin
+        RestClient.delete(resource + url, headers)
+      rescue => e
+        e.response
+      end
+    end
+
+    def check_user_authorization
+      raise 'User not authorized' if access_token.nil?
+    end
+
+    def prepare_filters(filters, page, per_page)
+      filter_array = []
+      if filters.present?
+        filters[:filter_groups].each_with_index do |filter_group, group_index|
+          filter_group[:filters].each_with_index do |filter, filter_index|
+            filter_string = "searchCriteria[filterGroups][#{group_index}][filters][#{filter_index}][field]=#{filter[:field]}&"
+            filter_string += "searchCriteria[filterGroups][#{group_index}][filters][#{filter_index}][value]=#{filter[:value]}&"
+            filter_string += "searchCriteria[filterGroups][#{group_index}][filters][#{filter_index}][conditionType]=#{filter[:condition]}"
+            filter_array.push(filter_string)
+          end
+        end
+
+        filters[:order].each_with_index do |order, index|
+          order_string = "searchCriteria[sortOrders][#{index}][field]=#{order[:field]}&"
+          order_string += "searchCriteria[sortOrders][#{index}][direction]=#{order[:direction]}"
+          filter_array.push(order_string)
+        end
+      end
+
+      filter_array.push("searchCriteria[pageSize]=#{per_page}")
+      filter_array.push("searchCriteria[currentPage]=#{page}")
+      filter_array.join '&'
+    end
+
   end
 
 end
