@@ -28,11 +28,11 @@ module Magento
       def get_products(page, per_page, filters = {})
         @product_filters = prepare_filters(filters, page, per_page)
         puts product_filters
-        parse_response(get_wrapper('/V1/products?' + product_filters, default_headers))
+        get_wrapper('/V1/products?' + product_filters, default_headers)
       end
 
       def get_product_by_sku(sku)
-        parse_response(get_wrapper("/V1/products/#{sku}", default_headers))
+        get_wrapper("/V1/products/#{sku}", default_headers)
       end
 
     end

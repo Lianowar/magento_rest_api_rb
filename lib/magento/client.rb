@@ -2,7 +2,6 @@
 
 require 'rest-client'
 require 'json'
-require 'hashugar'
 require 'magento/client/customers'
 require 'magento/client/products'
 require 'magento/client/cart'
@@ -29,73 +28,82 @@ module Magento
     end
 
     def login_customer(user_name, password)
-      response = post_wrapper('/V1/integration/customer/token',
+      token_result, success = post_wrapper('/V1/integration/customer/token',
                               { "username" => user_name, "password" => password }.to_json,
-                              default_headers).body
-      @customer_token = JSON.parse(response)
-      default_headers[:authorization] = "Bearer #{customer_token}"
-      customer_token
+                              default_headers)
+      @customer_token = token_result if success
+      default_headers[:authorization] = "Bearer #{customer_token}" if success
+      return token_result, success
     end
 
     def create_customer(customer_info, password)
       headers = { accept: :json, content_type: :json }
-      get_admin_token if admin_token.nil?
+      token_result, success = get_admin_token if admin_token.nil?
+
+      raise token_result unless success
 
       headers[:authorization] = "Bearer #{admin_token}"
-      parse_response(post_wrapper('/V1/customers',
-                                  { customer: customer_info,
-                                    password: password }.to_json,
-                                  headers))
+      post_wrapper('/V1/customers',
+                   { customer: customer_info,
+                     password: password }.to_json,
+                   headers)
     end
 
 
     private
 
     def get_admin_token
-      @admin_token = JSON.parse(post_wrapper('/V1/integration/admin/token',
-                                             { "username" => MagentoRestApiRb.admin_login,
-                                               "password" => MagentoRestApiRb.admin_password }.to_json,
-                                             headers))
+      @admin_token, success = post_wrapper('/V1/integration/admin/token',
+                                          { "username" => MagentoRestApiRb.admin_login,
+                                            "password" => MagentoRestApiRb.admin_password }.to_json,
+                                          headers)
+      return @admin_token, success
+    end
+
+    def parse_error(response)
+      puts 'hey'
     end
 
     def parse_response(response)
-      JSON.parse(response).to_hashugar
+      JSON.parse(response)
     end
 
+    ##
+    # All API methods return result and success status (true, false)
     def get_wrapper(url, headers)
       begin
-        RestClient.get(resource + url, headers)
+        return parse_response(RestClient.get(resource + url, headers)), true
       rescue => e
-        e.response
+        return parse_error(e.response), false
       end
     end
 
     def post_wrapper(url, payload, headers)
       begin
-        RestClient.post(resource + url, payload, headers)
+        return parse_response(RestClient.post(resource + url, payload, headers)), true
       rescue => e
-        e.response
+        return parse_error(e.response), false
       end
     end
 
     def put_wrapper(url, payload, headers)
       begin
-        RestClient.put(resource + url, payload, headers)
+        return parse_response(RestClient.put(resource + url, payload, headers)), true
       rescue => e
-        e.response
+        return parse_error(e.response), false
       end
     end
 
     def delete_wrapper(url, headers)
       begin
-        RestClient.delete(resource + url, headers)
+        return parse_response(RestClient.delete(resource + url, headers)), true
       rescue => e
-        e.response
+        return parse_error(e.response), false
       end
     end
 
     def check_user_authorization
-      raise 'User not authorized' if access_token.nil?
+      raise 'User not authorized' if customer_token.nil?
     end
 
     def prepare_filters(filters, page, per_page)
