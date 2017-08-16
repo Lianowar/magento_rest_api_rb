@@ -2,6 +2,7 @@
 
 require 'rest-client'
 require 'json'
+require 'hashugar'
 require 'magento/client/customers'
 require 'magento/client/products'
 require 'magento/client/cart'
@@ -38,9 +39,8 @@ module Magento
 
     def create_customer(customer_info, password)
       headers = { accept: :json, content_type: :json }
-      token_result, success = get_admin_token if admin_token.nil?
 
-      raise token_result unless success
+      get_admin_token
 
       headers[:authorization] = "Bearer #{admin_token}"
       post_wrapper('/V1/customers',
@@ -53,15 +53,22 @@ module Magento
     private
 
     def get_admin_token
-      @admin_token, success = post_wrapper('/V1/integration/admin/token',
-                                          { "username" => MagentoRestApiRb.admin_login,
-                                            "password" => MagentoRestApiRb.admin_password }.to_json,
-                                          headers)
-      return @admin_token, success
+      if admin_token.nil?
+        headers = { accept: :json, content_type: :json }
+        @admin_token, success = post_wrapper('/V1/integration/admin/token',
+                                             { "username" => MagentoRestApiRb.admin_login,
+                                               "password" => MagentoRestApiRb.admin_password }.to_json,
+                                             headers)
+
+        token_result, success = get_admin_token
+        raise token_result.to_s unless success
+      end
+      admin_token
     end
 
-    def parse_error(response)
-      puts 'hey'
+    def parse_error(error)
+      messages = JSON.parse(error).to_hashugar
+      messages.message.to_s.gsub(/%[0-9]*/, '%s') % messages.parameters
     end
 
     def parse_response(response)

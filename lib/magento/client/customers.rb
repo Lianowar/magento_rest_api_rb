@@ -63,7 +63,13 @@ module Magento
       end
 
       def validate_customer_data(payload)
-        put_wrapper('/V1/customers/validate', payload.to_json, default_headers)
+        headers = { accept: :json, content_type: :json }
+
+        get_admin_token
+
+        headers[:authorization] = "Bearer #{admin_token}"
+
+        put_wrapper('/V1/customers/validate', payload.to_json, headers)
       end
 
       # ## Similar to products filters
