@@ -60,8 +60,7 @@ module Magento
                                                "password" => MagentoRestApiRb.admin_password }.to_json,
                                              headers)
 
-        token_result, success = get_admin_token
-        raise token_result.to_s unless success
+        raise @admin_token.to_s unless success
       end
       admin_token
     end
