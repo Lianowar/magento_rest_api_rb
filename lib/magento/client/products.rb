@@ -39,6 +39,12 @@ module Magento
         return parse_product!(result), status
       end
 
+      def get_categories_list
+        result, status = get_wrapper('/V1/categories', default_headers)
+        return result, status unless status
+        return parse_categories(result), status
+      end
+
 
       private
 
@@ -58,6 +64,21 @@ module Magento
           product[attr['attribute_code']] = attr['value']
         end
         product
+      end
+
+      def parse_categories!(categories)
+        categories['children_data'].select! do |category|
+          category['is_active']
+        end
+        categories['children_data'].each do |category|
+          parse_categories!(category)
+        end
+        categories['children_data']
+      end
+
+      def parse_categories(categories)
+        categories_clone= categories.dup
+        parse_categories!(categories_clone)
       end
 
       def product_visibility_filters
