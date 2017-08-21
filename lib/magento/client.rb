@@ -6,6 +6,7 @@ require 'hashugar'
 require 'magento/client/customers'
 require 'magento/client/products'
 require 'magento/client/cart'
+require 'magento/client/guest_cart'
 
 module Magento
 
@@ -15,13 +16,14 @@ module Magento
     include Magento::Client::Customers
     include Magento::Client::Products
     include Magento::Client::Cart
+    include Magento::Client::GuestCart
 
     attr_reader :customer_token, :default_headers, :resource, :admin_token
 
     def initialize(customer_token = nil, default_headers = nil)
       @customer_token = customer_token
       @default_headers = default_headers.nil? ? { accept: :json, content_type: :json } : default_headers
-      @default_headers += { authorization: "Bearer #{@customer_token}" } unless @customer_token.nil?
+      @default_headers[:authorization] = "Bearer #{@customer_token}" unless @customer_token.nil?
 
       raise 'Has not resource host!' if MagentoRestApiRb.resource_host.nil?
 
@@ -67,7 +69,7 @@ module Magento
 
     def parse_error(error)
       messages = JSON.parse(error).to_hashugar
-      messages.message.to_s.gsub(/%[0-9]*/, '%s') % messages.parameters
+      messages.message.to_s.gsub(/(%[^ ]*)/, '%s') % messages.parameters
     end
 
     def parse_response(response)

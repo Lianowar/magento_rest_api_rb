@@ -12,6 +12,11 @@ module Magento
         post_wrapper("/V1/carts/mine/items", item.to_json, default_headers)
       end
 
+      def update_item_in_cart(cart_id, item_id, item)
+        check_user_authorization
+        put_wrapper("/V1/carts/#{cart_id}/items/#{item_id}", item.to_json, default_headers)
+      end
+
       def delete_item_from_cart(item_id)
         check_user_authorization
         delete_wrapper("/V1/carts/mine/items/#{item_id}", default_headers)

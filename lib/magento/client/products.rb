@@ -27,7 +27,6 @@ module Magento
 
       def get_products(page, per_page, filters = {})
         @product_filters = product_visibility_filters + prepare_filters(filters, page, per_page, 2)
-        puts product_filters
         result, status = get_wrapper('/V1/products?' + product_filters, default_headers)
         return result, status unless status
         return parse_products(result), status
@@ -45,6 +44,13 @@ module Magento
         return parse_categories(result), status
       end
 
+      ## values e.g. [13, 10, 1]
+      def get_product_attribute_values(attribute_id, values = [])
+        return [] unless values.present?
+        result, status = get_wrapper("/V1/products/attributes/#{attribute_id}", default_headers)
+        return result, status unless status
+        return parse_attributes_by_values(result, values), status
+      end
 
       private
 
@@ -79,6 +85,17 @@ module Magento
       def parse_categories(categories)
         categories_clone= categories.dup
         parse_categories!(categories_clone)
+      end
+
+      def parse_attributes_by_values(attributes, values)
+        result = []
+        values = values.map(&:to_s)
+        attributes['options'].each do |option|
+          if values.include? option['value'].to_s
+            result.push({ label: option['label'], value: option['value'] })
+          end
+        end
+        result
       end
 
       def product_visibility_filters

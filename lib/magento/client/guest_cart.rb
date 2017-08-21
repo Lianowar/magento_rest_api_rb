@@ -3,7 +3,11 @@ module Magento
     module GuestCart
 
       def create_guest_cart
-        post_wrapper('/V1/carts', {}, default_headers)
+        post_wrapper('/V1/guest-carts', {}.to_json, default_headers)
+      end
+
+      def get_guest_cart(key)
+        get_wrapper("/V1/guest-carts/#{key}", default_headers)
       end
 
       def place_order_by_cart_id(cart_id, payload)
