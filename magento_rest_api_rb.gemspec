@@ -1,7 +1,8 @@
 # coding: utf-8
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path('../lib', __FILE__)
+
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "magento_rest_api_rb/version"
+require 'magento_rest_api_rb/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "magento_rest_api_rb"

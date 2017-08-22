@@ -68,6 +68,7 @@ module Magento
     end
 
     def parse_error(error)
+      puts error
       messages = JSON.parse(error).to_hashugar
       messages.message.to_s.gsub(/(%[^ ]*)/, '%s') % messages.parameters
     end
