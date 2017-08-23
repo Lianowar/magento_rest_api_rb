@@ -43,9 +43,9 @@ module Magento
                     default_headers)
       end
 
-      def send_reset_password_email(email, template, website_id)
+      def send_reset_password_email(email, website_id)
         put_wrapper('/V1/customers/password',
-                    { email: email, template: template,
+                    { email: email, template: 'email_reset',
                       websiteId: website_id }.to_json,
                     default_headers)
       end
