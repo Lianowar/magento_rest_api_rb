@@ -7,6 +7,7 @@ require 'magento/client/customers'
 require 'magento/client/products'
 require 'magento/client/cart'
 require 'magento/client/guest_cart'
+require 'magento/client/wish_list'
 
 module Magento
 
@@ -17,6 +18,7 @@ module Magento
     include Magento::Client::Products
     include Magento::Client::Cart
     include Magento::Client::GuestCart
+    include Magento::Client::WishList
 
     attr_reader :customer_token, :default_headers, :resource, :admin_token
 
