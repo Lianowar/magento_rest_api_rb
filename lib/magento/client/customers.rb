@@ -2,20 +2,24 @@
 
 module Magento
   class Client
+    # Module for customer access methods
     module Customers
 
       attr_reader :customer_filters
 
+      # Get information about logged in customer
       def customer_me
         check_user_authorization
         get_wrapper('/V1/customers/me', default_headers)
       end
 
+      # Edit logged in customer profile
       def edit_customer(payload)
         check_user_authorization
         put_wrapper('/V1/customers/me', payload.to_json, default_headers)
       end
 
+      # Check email availability in system ( this email not exists in magento db )
       def email_available?(email)
         post_wrapper('/V1/customers/isEmailAvailable',
                      { customerEmail: email }.to_json,
@@ -35,6 +39,7 @@ module Magento
                     default_headers)
       end
 
+      # Change customer password by passing old password and new
       def change_customer_password(old_password, new_password)
         check_user_authorization
         put_wrapper('/V1/customers/me/password',
@@ -62,6 +67,7 @@ module Magento
                     default_headers)
       end
 
+      # Validate customer data before send it for example to create customer
       def validate_customer_data(payload)
         headers = { accept: :json, content_type: :json }
 

@@ -33,12 +33,14 @@ module Magento
         return parse_products(result), status
       end
 
+      # Get specific product by sku
       def get_product_by_sku(sku)
         result, status = get_wrapper("/V1/products/#{sku}", default_headers)
         return result, status unless status
         return parse_product!(result), status
       end
 
+      # Get all categories from magento
       def get_categories_list
         result, status = get_wrapper('/V1/categories', default_headers)
         return result, status unless status
@@ -55,6 +57,7 @@ module Magento
 
       private
 
+      # Parse products hash from search products method
       def parse_products(products)
         return [] unless products['items'].present?
 
@@ -65,6 +68,7 @@ module Magento
         result
       end
 
+      # Parse hash of one product
       def parse_product!(product)
         custom_attr = product.delete('custom_attributes')
         custom_attr.each do |attr|
@@ -73,6 +77,7 @@ module Magento
         product
       end
 
+      # Parse categories with change input hash
       def parse_categories!(categories)
         categories['children_data'].select! do |category|
           category['is_active']
@@ -83,11 +88,13 @@ module Magento
         categories['children_data']
       end
 
+      # Parse categories list from get categories method
       def parse_categories(categories)
-        categories_clone= categories.dup
+        categories_clone = categories.dup
         parse_categories!(categories_clone)
       end
 
+      # Parse product option attributes and return only included in product selections
       def parse_attributes_by_values(attributes, values)
         result = []
         values = values.map(&:to_s)
@@ -99,6 +106,8 @@ module Magento
         result
       end
 
+      # Default visibility filters for exclude
+      # in search disabled products and not visibly
       def product_visibility_filters
         "searchCriteria[filter_groups][0][filters][0][field]=status&" +
         + "searchCriteria[filter_groups][0][filters][0][value]=1&" +
