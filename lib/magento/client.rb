@@ -122,9 +122,9 @@ module Magento
       if filters.present?
         filters[:filter_groups].each_with_index do |filter_group, group_index|
           filter_group[:filters].each_with_index do |filter, filter_index|
-            filter_string = "searchCriteria[filterGroups][#{group_index + filter_group_start_index}][filters][#{filter_index}][field]=#{filter[:field]}&"
-            filter_string += "searchCriteria[filterGroups][#{group_index + filter_group_start_index}][filters][#{filter_index}][value]=#{filter[:value]}&"
-            filter_string += "searchCriteria[filterGroups][#{group_index + filter_group_start_index}][filters][#{filter_index}][conditionType]=#{filter[:condition]}"
+            filter_string = "searchCriteria[filter_groups][#{group_index + filter_group_start_index}][filters][#{filter_index}][field]=#{filter[:field]}&"
+            filter_string += "searchCriteria[filter_groups][#{group_index + filter_group_start_index}][filters][#{filter_index}][value]=#{filter[:value]}&"
+            filter_string += "searchCriteria[filter_groups][#{group_index + filter_group_start_index}][filters][#{filter_index}][conditionType]=#{filter[:condition]}"
             filter_array.push(filter_string)
           end
         end
