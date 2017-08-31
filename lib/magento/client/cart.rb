@@ -24,17 +24,12 @@ module Magento
 
       def create_cart
         check_user_authorization
-        post_wrapper('/V1/carts/mine', {}, default_headers)
+        post_wrapper('/V1/carts/mine', {}.to_json, default_headers)
       end
 
       def get_cart
         check_user_authorization
         get_wrapper('/V1/carts/mine', default_headers)
-      end
-
-      def place_order_for_cart(payload)
-        check_user_authorization
-        put_wrapper('/V1/carts/mine/order', payload.to_json, default_headers)
       end
 
     end

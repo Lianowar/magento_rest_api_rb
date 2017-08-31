@@ -114,6 +114,8 @@ module Magento
         + "searchCriteria[filter_groups][0][filters][0][conditionType]=eq&" +
         + "searchCriteria[filter_groups][1][filters][0][field]=visibility&" +
         + "searchCriteria[filter_groups][1][filters][0][value]=2&" +
+        + "searchCriteria[filter_groups][1][filters][0][value]=3&" +
+        + "searchCriteria[filter_groups][1][filters][0][value]=4&" +
         + "searchCriteria[filter_groups][1][filters][0][conditionType]=qteq&"
       end
 

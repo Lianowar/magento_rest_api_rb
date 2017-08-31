@@ -8,6 +8,7 @@ require 'magento/client/products'
 require 'magento/client/cart'
 require 'magento/client/guest_cart'
 require 'magento/client/wish_list'
+require 'magento/client/checkout'
 
 module Magento
 
@@ -19,6 +20,7 @@ module Magento
     include Magento::Client::Cart
     include Magento::Client::GuestCart
     include Magento::Client::WishList
+    include Magento::Client::Checkout
 
     attr_reader :customer_token, :default_headers, :resource, :admin_token
 
@@ -72,7 +74,9 @@ module Magento
     def parse_error(error)
       puts error
       messages = JSON.parse(error).to_hashugar
-      messages.message.to_s.gsub(/(%[^ ]*)/, '%s') % messages.parameters
+      messages.message.to_s.gsub /%([^ ]*)/ do |match|
+        messages.parameters[match]
+      end
     end
 
     def parse_response(response)
