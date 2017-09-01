@@ -2,11 +2,13 @@ module Magento
   class Client
     module Checkout
 
+      # Get total cart information with tax, shipment and items
       def get_cart_total
         check_user_authorization
         get_wrapper('/V1/carts/mine/totals', default_headers)
       end
 
+      # Place order for customer cart
       def place_order(payment_method)
         check_user_authorization
         put_wrapper('/V1/carts/mine/order',
@@ -45,6 +47,7 @@ module Magento
 
       end
 
+      # Set set shipment information: address, shipment_method, biling_address
       def set_shipment_information(billing_address, shipment_address, method)
         check_user_authorization
         post_wrapper('/V1/carts/mine/shipping-information',
@@ -54,6 +57,7 @@ module Magento
                              .merge(method) }.to_json, default_headers)
       end
 
+      # Get shipment methods for specific shipment address
       def get_shipment_methods(address)
         check_user_authorization
         post_wrapper('/V1/carts/mine/estimate-shipping-methods', address.to_json, default_headers)

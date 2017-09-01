@@ -1,28 +1,36 @@
 # MagentoRestApiRb
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/magento_rest_api_rb`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is Ruby wrapper for Magento Shop REST API. It is currently under development and some features not implemented or not user friendly, if you want to fix something - please make pull request.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'magento_rest_api_rb'
+gem 'magento_rest_api_rb', github: 'Lianowar/magento_rest_api_rb'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install magento_rest_api_rb
-
 ## Usage
+Config initializers/magento_rest_api_rb.rb
+```ruby
+require 'magento_rest_api_rb'
 
-TODO: Write usage instructions here
+MagentoRestApiRb.resource_host = '<YOUR_HOST>' # e.g 'http://exmaple.com/rest'
+MagentoRestApiRb.admin_login = '<YOUR_ADMIN_USERNAME>'
+MagentoRestApiRb.admin_password = '<YOUR_ADMIN_PASSWORD>'
+MagentoRestApiRb.default_website_id = '<DEFAULT_STORE_ID>'
+MagentoRestApiRb.default_user_group_id = '<DEFAULT_USER_GROUP_ID>'
+```
+
+Use
+```ruby
+client = Magento::Client.new('<customer_token> optional') #get from client.login_customer(email, plain password)
+response, status = client.get_cart # status: true, false (false if server return error)
+```
 
 ## Development
 
@@ -32,7 +40,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/magento_rest_api_rb. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Lianowar/magento_rest_api_rb. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

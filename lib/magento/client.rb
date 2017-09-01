@@ -34,9 +34,9 @@ module Magento
       @resource = MagentoRestApiRb.resource_host
     end
 
-    def login_customer(user_name, password)
+    def login_customer(email, password)
       token_result, success = post_wrapper('/V1/integration/customer/token',
-                              { "username" => user_name, "password" => password }.to_json,
+                              { "username" => email, "password" => password }.to_json,
                               default_headers)
       @customer_token = token_result if success
       default_headers[:authorization] = "Bearer #{customer_token}" if success
