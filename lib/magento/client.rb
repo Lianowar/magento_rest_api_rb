@@ -140,8 +140,8 @@ module Magento
         end
       end
 
-      filter_array.push("searchCriteria[pageSize]=#{per_page}")
-      filter_array.push("searchCriteria[currentPage]=#{page}")
+      filter_array.push("searchCriteria[pageSize]=#{per_page}") if per_page.present?
+      filter_array.push("searchCriteria[currentPage]=#{page}") if page.present?
       filter_array.join '&'
     end
 
