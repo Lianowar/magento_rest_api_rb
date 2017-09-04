@@ -9,6 +9,7 @@ require 'magento/client/cart'
 require 'magento/client/guest_cart'
 require 'magento/client/wish_list'
 require 'magento/client/checkout'
+require 'magento/client/guest_checkout'
 
 module Magento
 
@@ -21,13 +22,15 @@ module Magento
     include Magento::Client::GuestCart
     include Magento::Client::WishList
     include Magento::Client::Checkout
+    include Magento::Client::GuestCheckout
 
-    attr_reader :customer_token, :default_headers, :resource, :admin_token
+    attr_reader :customer_token, :default_headers, :resource, :admin_token, :guest_cart_key
 
-    def initialize(customer_token = nil, default_headers = nil)
+    def initialize(customer_token = nil, default_headers = nil, guest_cart_key = nil)
       @customer_token = customer_token
       @default_headers = default_headers.nil? ? { accept: :json, content_type: :json } : default_headers
       @default_headers[:authorization] = "Bearer #{@customer_token}" unless @customer_token.nil?
+      @guest_cart_key = guest_cart_key
 
       raise 'Has not resource host!' if MagentoRestApiRb.resource_host.nil?
 
