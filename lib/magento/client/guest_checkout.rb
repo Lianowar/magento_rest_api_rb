@@ -45,7 +45,6 @@ module Magento
 
       # Get shipment methods for specific shipment address
       def get_guest_shipment_methods(address)
-        check_user_authorization
         post_wrapper("/V1/guest-carts/#{guest_cart_key}/estimate-shipping-methods", address.to_json, default_headers)
       end
     end
