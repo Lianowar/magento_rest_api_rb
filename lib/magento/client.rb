@@ -10,6 +10,7 @@ require 'magento/client/guest_cart'
 require 'magento/client/wish_list'
 require 'magento/client/checkout'
 require 'magento/client/guest_checkout'
+require 'magento/client/coupon'
 
 module Magento
 
@@ -23,6 +24,7 @@ module Magento
     include Magento::Client::WishList
     include Magento::Client::Checkout
     include Magento::Client::GuestCheckout
+    include Magento::Client::Coupon
 
     attr_reader :customer_token, :default_headers, :resource, :admin_token, :guest_cart_key
 
