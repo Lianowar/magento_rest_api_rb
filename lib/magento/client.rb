@@ -85,6 +85,7 @@ module Magento
     end
 
     def parse_response(response)
+      return response unless response.present?
       JSON.parse(response)
     end
 
