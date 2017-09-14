@@ -82,13 +82,12 @@ module Magento
       messages.message.to_s.gsub /%([^ ]*)/ do |match|
         messages.parameters[match]
       end
+      rescue => e
+        error
     end
 
     def parse_response(response)
       JSON.parse(response)
-      rescue => e
-        response
-      end
     end
 
     ##
