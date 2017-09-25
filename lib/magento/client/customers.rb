@@ -78,6 +78,11 @@ module Magento
         put_wrapper('/V1/customers/validate', payload.to_json, headers)
       end
 
+      def get_customer_default_shipping_address
+        check_user_authorization
+        get_wrapper('/V1/customers/me/shippingAddress', default_headers)
+      end
+
       # ## Similar to products filters
       # def search_customers(page, per_page, filters = {})
       #   @customer_filters = prepare_filters(filters, page, per_page)
