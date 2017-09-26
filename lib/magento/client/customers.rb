@@ -83,6 +83,14 @@ module Magento
         get_wrapper('/V1/customers/me/shippingAddress', default_headers)
       end
 
+      def delete_customer_by_id(customer_id)
+        headers = { accept: :json, content_type: :json }
+        get_admin_token
+        headers[:authorization] = "Bearer #{admin_token}"
+
+        delete_wrapper("/V1/customers/#{customer_id}", headers)
+      end
+
       # ## Similar to products filters
       # def search_customers(page, per_page, filters = {})
       #   @customer_filters = prepare_filters(filters, page, per_page)
