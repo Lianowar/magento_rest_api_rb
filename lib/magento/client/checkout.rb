@@ -16,11 +16,13 @@ module Magento
                     default_headers)
       end
 
+      # Get payment methods for customer cart
       def get_payment_methods
         check_user_authorization
         get_wrapper('/V1/carts/mine/payment-methods', default_headers)
       end
 
+      # Set payment method for cart
       def set_payment_method(method)
         check_user_authorization
         post_wrapper('/V1/carts/mine/set-payment-information',
@@ -43,10 +45,6 @@ module Magento
         post_wrapper('/V1/carts/mine/billing-address', address.to_json, default_headers)
       end
 
-      def get_shipment_address
-
-      end
-
       # Set set shipment information: address, shipment_method, biling_address
       def set_shipment_information(billing_address, shipment_address, method)
         check_user_authorization
@@ -63,6 +61,7 @@ module Magento
         post_wrapper('/V1/carts/mine/estimate-shipping-methods', address.to_json, default_headers)
       end
 
+      # Get list of available countries in magento backend
       def get_available_countries
         get_wrapper('/V1/directory/countries', default_headers)
       end

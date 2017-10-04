@@ -83,6 +83,7 @@ module Magento
         get_wrapper('/V1/customers/me/shippingAddress', default_headers)
       end
 
+      # Delete customer in magento backend by id (e.g. for testing)
       def delete_customer_by_id(customer_id)
         headers = { accept: :json, content_type: :json }
         get_admin_token

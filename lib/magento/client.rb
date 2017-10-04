@@ -41,6 +41,8 @@ module Magento
       @resource = MagentoRestApiRb.resource_host
     end
 
+
+    # Login customer and get token from magento backend by customer email and password
     def login_customer(email, password)
       token_result, success = post_wrapper('/V1/integration/customer/token',
                               { "username" => email, "password" => password }.to_json,
@@ -50,6 +52,7 @@ module Magento
       return token_result, success
     end
 
+    # Create new customer in magento backend
     def create_customer(customer_info, password)
       headers = { accept: :json, content_type: :json }
 
@@ -65,6 +68,7 @@ module Magento
 
     private
 
+    # Get admin token for magento backend
     def get_admin_token
       if admin_token.nil?
         headers = { accept: :json, content_type: :json }
@@ -130,6 +134,7 @@ module Magento
       raise 'User not authorized' if customer_token.nil?
     end
 
+    # Prepare search filters e.g. for products search
     def prepare_filters(filters, page, per_page, filter_group_start_index = 0)
       filter_array = []
       if filters.present?
