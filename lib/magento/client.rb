@@ -84,6 +84,13 @@ module Magento
       admin_token
     end
 
+    def admin_headers
+      headers = { accept: :json, content_type: :json }
+      get_admin_token
+      headers[:authorization] = "Bearer #{admin_token}"
+      headers
+    end
+
     def parse_error(error)
       puts error
       messages = JSON.parse(error).to_hashugar

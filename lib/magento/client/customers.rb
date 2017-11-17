@@ -48,6 +48,13 @@ module Magento
                     default_headers)
       end
 
+      def change_customer_password_with_admin_access(user_id, new_password)
+        headers = admin_headers
+        post_wrapper('/V1/users/newpassword',
+                     { id: user_id, newPassword: new_password },
+                     headers)
+      end
+
       def send_reset_password_email(email, website_id)
         put_wrapper('/V1/customers/password',
                     { email: email, template: 'email_reset',

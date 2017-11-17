@@ -17,15 +17,6 @@ module Magento
         headers = admin_headers
         post_wrapper("/V1/orders/#{order_id}/cancel", {}.to_json, headers)
       end
-
-      private
-
-      def admin_headers
-        headers = { accept: :json, content_type: :json }
-        get_admin_token
-        headers[:authorization] = "Bearer #{admin_token}"
-        headers
-      end
     end
   end
 end
