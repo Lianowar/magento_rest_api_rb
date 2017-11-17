@@ -48,10 +48,10 @@ module Magento
                     default_headers)
       end
 
-      def change_customer_password_with_admin_access(user_id, new_password)
+      def change_customer_password_with_admin_access(email, new_password)
         headers = admin_headers
-        post_wrapper('/V1/users/newpassword',
-                     { id: user_id, newPassword: new_password },
+        post_wrapper('/V1/customers/newpassword',
+                     { email: email, newPassword: new_password }.to_json,
                      headers)
       end
 
