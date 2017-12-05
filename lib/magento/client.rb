@@ -102,7 +102,7 @@ module Magento
     end
 
     def parse_response(response)
-      JSON.parse(response)
+      JSON.parse(response.to_s, quirks_mode: true)
     end
 
     ##
