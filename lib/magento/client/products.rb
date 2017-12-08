@@ -29,7 +29,6 @@ module Magento
         @product_filters = product_visibility_filters + prepare_filters(filters, page, per_page, 2)
         result, status = get_wrapper('/V1/products?' + product_filters, default_headers)
         return result, status unless status
-        puts result
         return parse_products(result), status
       end
 

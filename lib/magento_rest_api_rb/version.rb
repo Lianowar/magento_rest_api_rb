@@ -1,3 +1,3 @@
 module MagentoRestApiRb
-  VERSION = "1.1beta"
+  VERSION = "1.11beta"
 end
