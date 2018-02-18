@@ -32,6 +32,11 @@ module Magento
         return parse_products(result), status
       end
 
+      # Get all filters from magento
+      def get_product_filters
+        get_wrapper('/V1/products/filters', default_headers)
+      end
+
       # Get specific product by sku
       def get_product_by_sku(sku)
         result, status = get_wrapper("/V1/products/#{sku}", default_headers)
