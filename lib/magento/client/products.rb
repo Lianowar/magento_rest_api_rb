@@ -33,8 +33,8 @@ module Magento
       end
 
       # Get all filters from magento
-      def get_product_filters
-        get_wrapper('/V1/products/filters', default_headers)
+      def get_product_filters(category_id = nil)
+        get_wrapper("/V1/products/filters#{'?cat=' + category_id if category_id.present?}", default_headers)
       end
 
       # Get specific product by sku
