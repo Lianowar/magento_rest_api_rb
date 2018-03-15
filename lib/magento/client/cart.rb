@@ -35,6 +35,13 @@ module Magento
         check_user_authorization
         get_wrapper('/V1/carts/mine', default_headers)
       end
+
+      def merge_guest_cart(guest_cart_id, customer_cart_id)
+        check_user_authorization
+        post_wrapper('/V1/customers/mergeguestcart',
+                     { guestCartId: guest_cart_id, customerCartId: customer_cart_id }.to_json,
+                     default_headers)
+      end
     end
   end
 end
