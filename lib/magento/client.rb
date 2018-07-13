@@ -31,16 +31,18 @@ module Magento
     attr_reader :customer_token, :default_headers, :resource, :admin_token,
                 :guest_cart_key, :store_code
 
-    def initialize(customer_token = nil, default_headers = nil, guest_cart_key = nil, store_code = nil)
+    def initialize(customer_token = nil, default_headers = nil, guest_cart_key = nil,
+                   store_code = MagentoRestApiRb.default_store_code)
       @customer_token = customer_token
       @default_headers = default_headers.nil? ? { accept: :json, content_type: :json } : default_headers
       @default_headers[:authorization] = "Bearer #{@customer_token}" unless @customer_token.nil?
       @guest_cart_key = guest_cart_key
-      @store_code = store_code || MagentoRestApiRb.default_store_code
+      @store_code = store_code
 
-      raise 'Has not resource host!' if MagentoRestApiRb.resource_host.nil?
+      raise 'Has not resource host!' unless MagentoRestApiRb.resource_host.present?
 
-      @resource = MagentoRestApiRb.resource_host + "/#{@store_code}"
+      @resource = MagentoRestApiRb.resource_host.gsub(/\/$/, '')
+      @resource += "/#{@store_code}" if @store_code.present?
     end
 
 
