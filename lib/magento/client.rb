@@ -28,8 +28,8 @@ module Magento
     include Magento::Client::Coupon
     include Magento::Client::Order
 
-    attr_reader :customer_token, :default_headers, :resource, :admin_token,
-                :guest_cart_key, :store_code
+    attr_reader :resource, :admin_token, :store_code
+    attr_accessor :guest_cart_key, :customer_token, :default_headers
 
     def initialize(customer_token = nil, default_headers = nil, guest_cart_key = nil,
                    store_code = MagentoRestApiRb.default_store_code)
