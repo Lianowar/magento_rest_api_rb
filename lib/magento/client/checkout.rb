@@ -30,7 +30,7 @@ module Magento
                      default_headers)
       end
 
-      # Set payment method for cart
+      # Set payment information for cart
       def set_payment_information(method, billing_address)
         check_user_authorization
         post_wrapper('/default/V1/carts/mine/payment-information',
