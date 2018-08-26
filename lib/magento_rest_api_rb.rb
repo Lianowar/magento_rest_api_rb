@@ -1,5 +1,6 @@
 require "magento_rest_api_rb/version"
 require 'magento/client'
+require 'active_support'
 
 module MagentoRestApiRb
   mattr_accessor :resource_host
