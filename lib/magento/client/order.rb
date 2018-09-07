@@ -17,6 +17,11 @@ module Magento
         headers = admin_headers
         post_wrapper("/V1/orders/#{order_id}/cancel", {}.to_json, headers)
       end
+
+      def create_a_shipment (order_id)
+        headers = admin_headers
+        post_wrapper("/default/V1/order/#{order_id}/ship", {}.to_json, headers)
+      end
     end
   end
 end
