@@ -3,6 +3,8 @@
 require 'rest-client'
 require 'json'
 require 'hashugar'
+require 'active_support'
+require 'active_support/core_ext'
 require 'magento/client/customers'
 require 'magento/client/products'
 require 'magento/client/cart'

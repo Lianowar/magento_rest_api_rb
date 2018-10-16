@@ -30,6 +30,14 @@ module Magento
                      default_headers)
       end
 
+      # Set payment information for cart
+      def set_payment_information(method, billing_address)
+        check_user_authorization
+        post_wrapper('/default/V1/carts/mine/payment-information',
+                     { paymentMethod: method}.merge(billing_address).to_json,
+                     default_headers)
+      end
+
       def get_selected_payment_method
         check_user_authorization
         get_wrapper('/V1/carts/mine/selected-payment-method', default_headers)
