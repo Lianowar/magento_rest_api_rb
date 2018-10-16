@@ -24,11 +24,15 @@ MagentoRestApiRb.admin_login = '<YOUR_ADMIN_USERNAME>'
 MagentoRestApiRb.admin_password = '<YOUR_ADMIN_PASSWORD>'
 MagentoRestApiRb.default_website_id = '<DEFAULT_STORE_ID>'
 MagentoRestApiRb.default_user_group_id = '<DEFAULT_USER_GROUP_ID>'
+MagentoRestApiRb.default_store_id = '<DEFAULT_STORE_ID>'
+MagentoRestApiRb.default_store_code = '<DEFAULT_STORE_CODE>' # for localization mostly
 ```
 
 Use
 ```ruby
-client = Magento::Client.new('<customer_token> optional') #get from client.login_customer(email, plain password)
+# All params are optional, customer token getting from client.login_customer(email, plain password)
+# guest_cart_key 
+client = Magento::Client.new('<customer_token>', '<default_headers>', '<guest_cart_key>', '<store_code>')
 response, status = client.get_cart # status: true, false (false if server return error)
 ```
 

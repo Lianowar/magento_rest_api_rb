@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Lianowar"]
   spec.email         = ["novikov.vasiliy.d@gmail.com"]
 
-  spec.summary       = %q{Gem for Magentо REST Api}
-  spec.description   = %q{Gem for Magentо REST Api}
+  spec.summary       = %q{Gem for Magentо 2 REST Api}
+  spec.description   = %q{Gem for Magentо 2 REST Api}
   spec.homepage      = "https://github.com/Lianowar/magento_rest_api_rb"
   spec.license       = "MIT"
 

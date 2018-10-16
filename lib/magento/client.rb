@@ -45,7 +45,6 @@ module Magento
       @resource += "/#{@store_code}" if @store_code.present?
     end
 
-
     # Login customer and get token from magento backend by customer email and password
     def login_customer(email, password)
       token_result, success = post_wrapper('/V1/integration/customer/token',
@@ -58,17 +57,11 @@ module Magento
 
     # Create new customer in magento backend
     def create_customer(customer_info, password)
-      headers = { accept: :json, content_type: :json }
-
-      get_admin_token
-
-      headers[:authorization] = "Bearer #{admin_token}"
       post_wrapper('/V1/customers',
                    { customer: customer_info,
                      password: password }.to_json,
-                   headers)
+                   admin_headers)
     end
-
 
     private
 
@@ -94,11 +87,7 @@ module Magento
     end
 
     def parse_error(error)
-      puts error
-      messages = JSON.parse(error).to_hashugar
-      messages.message.to_s.gsub /%([^ ]*)/ do |match|
-        messages.parameters[match]
-      end
+      JSON.parse(error).to_hashugar
       rescue => e
         error
     end
