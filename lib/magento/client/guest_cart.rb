@@ -21,7 +21,7 @@ module Magento
 
       # Update item qty in guest cart
       def update_item_in_guest_cart(item_id, item)
-        put_wrapper("/V1/carts/#{guest_cart_key}/items/#{item_id}", item.to_json, default_headers)
+        put_wrapper("/V1/guest-carts/#{guest_cart_key}/items/#{item_id}", item.to_json, default_headers)
       end
 
       def delete_item_from_guest_cart(item_id)

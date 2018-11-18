@@ -14,9 +14,9 @@ module Magento
       end
 
       # Update item qty in customer cart
-      def update_item_in_cart(cart_id, item_id, item)
+      def update_item_in_cart(item_id, item)
         check_user_authorization
-        put_wrapper("/V1/carts/#{cart_id}/items/#{item_id}", item.to_json, default_headers)
+        put_wrapper("/V1/carts/mine/items/#{item_id}", item.to_json, default_headers)
       end
 
       def delete_item_from_cart(item_id)
