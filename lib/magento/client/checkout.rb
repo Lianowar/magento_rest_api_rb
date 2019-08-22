@@ -33,8 +33,8 @@ module Magento
       # Set payment information for cart
       def set_payment_information(method, billing_address)
         check_user_authorization
-        post_wrapper('/default/V1/carts/mine/payment-information',
-                     { paymentMethod: method}.merge(billing_address).to_json,
+        post_wrapper('/V1/carts/mine/payment-information',
+                     { paymentMethod: method }.merge(billing_address).to_json,
                      default_headers)
       end
 
