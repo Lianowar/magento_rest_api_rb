@@ -39,7 +39,7 @@ module Magento
 
       # Get specific product by sku
       def get_product_by_sku(sku)
-        result, status = get_wrapper("/V1/products/#{sku}", default_headers)
+        result, status = get_wrapper("/V1/products/#{sku}", admin_headers)
         return result, status unless status
         return parse_product!(result), status
       end
