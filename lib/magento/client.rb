@@ -13,6 +13,7 @@ require 'magento/client/checkout'
 require 'magento/client/guest_checkout'
 require 'magento/client/coupon'
 require 'magento/client/order'
+require 'magento/error'
 
 module Magento
 
