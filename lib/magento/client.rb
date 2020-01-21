@@ -96,6 +96,8 @@ module Magento
 
     def parse_response(response)
       JSON.parse(response.to_s, quirks_mode: true)
+    rescue JSON::ParserError => e
+      {}
     end
 
     ##
