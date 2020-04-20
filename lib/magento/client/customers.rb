@@ -76,11 +76,7 @@ module Magento
 
       # Validate customer data before send it for example to create customer
       def validate_customer_data(payload)
-        headers = { accept: :json, content_type: :json }
-
-        get_admin_token
-
-        headers[:authorization] = "Bearer #{admin_token}"
+        headers = admin_headers
 
         put_wrapper('/V1/customers/validate', payload.to_json, headers)
       end
@@ -92,20 +88,17 @@ module Magento
 
       # Delete customer in magento backend by id (e.g. for testing)
       def delete_customer_by_id(customer_id)
-        headers = { accept: :json, content_type: :json }
-        get_admin_token
-        headers[:authorization] = "Bearer #{admin_token}"
+        headers = admin_headers
 
         delete_wrapper("/V1/customers/#{customer_id}", headers)
       end
 
-      # ## Similar to products filters
-      # def search_customers(page, per_page, filters = {})
-      #   @customer_filters = prepare_filters(filters, page, per_page)
-      #   parse_response(get_wrapper("/V1/customers/search?#{customer_filters}", default_headers))
-      # end
-
-
+      ## Similar to products filters
+      def search_customers(page, per_page, filters = {})
+        headers = admin_headers
+        customer_filters = prepare_filters(filters, page, per_page)
+        get_wrapper("/V1/customers/search?#{customer_filters}", headers)
+      end
     end
   end
 end
