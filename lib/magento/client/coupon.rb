@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Magento
   class Client
     module Coupon
@@ -7,6 +9,13 @@ module Magento
         check_user_authorization
         put_wrapper("/V1/carts/mine/coupons/#{coupon_code}",
                     {}.to_json, default_headers)
+      end
+
+      # Delete promo coupon from cart
+      def delete_coupon_from_cart
+        check_user_authorization
+        delete_wrapper("/V1/carts/mine/coupons/",
+                       default_headers)
       end
 
       # Similar to guest cart
